@@ -42,10 +42,13 @@ function buscar($conn, $tabela, $where = 1, $order=""){
     if(!empty($order)){
         $order = "ORDER BY $order";
     }
-    $query = "SELECT * FROM $tabela WHERE $where $order";
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $limit=10;
+    $offset =($page-1) * $limit;
+    $query = "SELECT * FROM $tabela WHERE $where $order LIMIT $limit OFFSET $offset; ";
     $execute = mysqli_query($conn, $query);
     $result = mysqli_fetch_all($execute, MYSQLI_ASSOC);
-    return $result;($result);
+    return $result;
 
 }
 function inserir($conn){
@@ -89,7 +92,20 @@ function deletar($conn, $tabela, $id){
         $query = "DELETE FROM $tabela WHERE id=". (int) $id;
         $executar = mysqli_query($conn, $query);
         if ($executar) {
-            echo "Dado deletado com sucesso.";
+
+            echo '
+
+    <div id="message" style="color: #cc0000; width: 100%; background-color: #ffcccc; height: 50px; display: flex; align-items: center; justify-content: center;">
+        Dado deletado com sucesso
+        
+    </div>
+    <script>
+        setTimeout(function() {
+            document.getElementById("message").style.display = "none";
+        }, 2000);
+    </script>
+';
+
 
         }else{
             echo "Erro ao tentar deletar este dado";
@@ -235,4 +251,34 @@ function uploadimage($caminho){
             }
     }
 }
+function paginate($conn) {
+    // Consulta para contar o total de registros
+    $qtd_usuarios = "SELECT COUNT(*) AS total FROM usuarios";
+    $usuarios_qtd = $conn->query($qtd_usuarios);
+    $usuarios_count = $usuarios_qtd->fetch_assoc();
+    $count_usuarios = $usuarios_count["total"];
+
+    // Cálculo para a paginação
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $limit = 10;
+
+
+    // Total de páginas
+    $numero_de_paginas = ceil($count_usuarios / $limit);
+
+
+    // Exibir paginação
+    echo '<ul class="pagination">';
+    for ($p = 1; $p <= $numero_de_paginas; $p++) {
+        if ($p == $page) {
+            echo "<li class='page-item active'><span class='page-link'>{$p}</span></li>";
+        } else {
+            echo "<li class='page-item'><a class='page-link' href='?page={$p}'>{$p}</a></li>";
+        }
+    }
+    echo '</ul>';
+}
+
+
+
 ?>

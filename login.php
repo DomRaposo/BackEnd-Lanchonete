@@ -12,17 +12,19 @@ require_once "conexao.php";
     <link href="style.css" rel="stylesheet">
   </head>
 
-<body class="d-flex align-items-center py-4 bg-body-tertiary ">
-    <main class="w-100 m-auto form-container" >
+<body >
+    <main class=" mt-4 container card" >
 
     <form action="" method="POST" >
 
 
-        <h1 class="h3 mb-3 fw-normal">Insira seu Login</h1>
+        <h1 class="h3 mb-3 fw-normal mt-3 text-center" >Insira seu Login</h1>
         <div class="form-floating">
-            <input type="email" class="form-control" id="floating-input" name="email" placeholder="Informe seu E-mail" required>
-            <input type="password" class="form-control" id="floating-input" name="senha" placeholder="insira sua senha:">
-            <input type="submit" class="btn btn-primary w-100 py-2" id="floating-input" name="acessar" value="acessar">
+            <label>E-mail:</label>
+            <input type="email" class="form-control mb-2" id="floating-input" name="email" placeholder="Informe seu E-mail" required>
+            <label>Senha:</label>
+            <input type="password" class="form-control mb-2" id="floating-input" name="senha" placeholder="insira sua senha:">
+            <input type="submit" class="btn btn-info  w-100  py-2 mt-2 mb-3" id="floating-input" name="acessar" value="Acessar">
 
         </div>
     </form>
